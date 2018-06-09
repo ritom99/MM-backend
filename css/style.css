@@ -1,0 +1,410 @@
+body {
+  margin: 0;
+  font-family: Helvetica;
+}
+
+hr {
+	border-color: rgb(211,211,211);
+}
+
+/*.navbar-header {
+	text-align: center;
+}*/
+
+/*ul {
+    margin: 0;
+    padding: 0;
+}*/
+
+/*ul {
+    margin-left: auto;
+    margin-right: auto;
+}*/
+
+.container {
+	padding: 0px 30px 0px 30px;
+}
+
+.nav {
+	margin: 0;
+	padding: 0;
+	text-align: center;
+	font-family: Sans-serif;
+	background: white;
+	/*width: 100%;*/
+}
+
+.nav li {
+	display: inline;
+}
+
+/*.affix {
+	top: 0;
+	width: 100%;
+}*/
+
+/*.affix ~ .container-fluid {
+     position: relative;
+     top: 50px;
+  }*/
+
+/*h2 {
+	font-family: Georgia;
+}*/
+
+.logo {
+		float: left;
+		padding: 15px 0px 0px 20px;
+	}
+
+@media screen and (min-width: 992px) {
+	.logo {
+		display: none;
+	}
+}
+
+header {
+	text-transform: uppercase;
+	text-align: center;
+	font-size: 40px;
+	font-family: Arial;
+}
+
+.forms {
+  text-align: center;
+}
+
+#signup input[type=text], input[type=password] {
+    width: 100%;
+    padding: 10px;
+    /* margin-top: 10px; */
+    margin-bottom: 10px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    font-family: Arial;
+}
+
+#login input[type=text], input[type=password] {
+    width: 100%;
+    padding: 10px;
+    /* margin-top: 10px; */
+    margin-bottom: 10px;
+    display: inline-block;
+    border: 1px solid #ccc;
+    font-family: Arial;
+}
+
+.modal input[type=text]:focus, input[type=password]:focus {
+    outline: none;
+}
+
+.forms button {
+    background-color: #B0E0E6;
+    color: black;
+    padding: 8px 20px;
+    margin: 8px 0;
+    border: none;
+    cursor: pointer;
+    width: 100%;
+    opacity: 0.9;
+}
+
+button:visited {
+  color: inherit;
+}
+
+button:hover {
+    opacity:1;
+}
+
+.cancelbtn {
+    padding: 14px 20px;
+    background-color: #f44336;
+}
+
+.signupbtn, .loginbtn {
+  padding: 14px 20px;
+  background-color: #32CD32;
+}
+
+.loginbtn {
+  width: 50%;
+  text-align: center;
+  color: white;
+  border: none;
+}
+
+.cancelbtn, .signupbtn {
+  float: left;
+  width: 50%;
+  color: white;
+  border: none;
+  opacity: 0.9;
+}
+
+.modal .container {
+    padding: 20px;
+}
+
+.modal {
+    display: none;
+    position: fixed;
+    z-index: 1;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    overflow: auto;
+    background-color: rgba(0,0,0,0.5);
+    padding-top: 50px;
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 10px auto 10px auto;
+    border: 1px solid #888;
+    width: 50%;
+}
+
+form .container {
+  width: 80%;
+}
+
+span.psw {
+    float: right;
+    padding-top: 0px;
+}
+
+.animate {
+    -webkit-animation: animatezoom 0.6s;
+    animation: animatezoom 0.6s
+}
+
+@-webkit-keyframes animatezoom {
+    from {-webkit-transform: scale(0)}
+    to {-webkit-transform: scale(1)}
+}
+
+@keyframes animatezoom {
+    from {transform: scale(0)}
+    to {transform: scale(1)}
+}
+
+.close {
+    position: absolute;
+    right: 35px;
+    top: 15px;
+    font-size: 40px;
+    font-weight: bold;
+    color: #f1f1f1;
+}
+
+.close:hover,
+.close:focus {
+    color: #f44336;
+    cursor: pointer;
+}
+
+.clearfix::after {
+    content: "";
+    clear: both;
+    display: table;
+}
+
+@media screen and (max-width: 300px) {
+    .cancelbtn, .signupbtn {
+       width: 100%;
+    }
+}
+
+h1 {
+	text-align: center;
+	font-family: Times New Roman;
+}
+
+.row {
+	padding: 0px 20px 10px 20px;
+}
+
+.row .info p {
+	font-style: italic;
+}
+
+@media screen and (min-width: 992px) {
+	.info {
+		padding-top: 0;
+	}
+}
+
+a, a:hover, a:visited {
+	color: #000000;
+}
+
+a {
+	text-transform: uppercase;
+}
+
+.author {
+	font-weight: bold;
+}
+
+.info {
+	font-size: 17px;
+}
+
+.editorspicks {
+	text-align: left;
+	padding: 10px 50px 10px 50px;
+}
+
+.latest {
+	text-align: right;
+	padding: 10px 50px 10px 50px;
+}
+
+.article {
+	font-size: 17px;
+}
+
+@media screen and (min-width: 992px){
+  .container .row {
+	   display: flex;
+	    align-items: center;
+    }
+}
+
+.piccap {
+  text-align: center;
+}
+
+@media screen and (min-width: 992px){
+  .piccap {
+    text-align: right;
+  }
+}
+
+.piccap p {
+  font-style: italic;
+}
+
+/*@media screen and (min-width: 992px){
+	.articles .row h2 {
+		padding-top: 60px;
+	}
+}*/
+
+/*.articleheading {
+	font-size: 40px;
+
+}*/
+
+/*.nav a {
+	display: inline-block;
+	padding: 10px;
+}
+*/
+
+.slideshow {
+  /* height: 500px; */
+  padding: 0px 60px 0px 60px;
+
+}
+
+.number {
+  color: #f2f2f2;
+  font-size: 12px;
+  padding: 8px 12px;
+  position: absolute;
+  top: 0;
+}
+
+.slides {
+	display: none;
+}
+
+.caption {
+  /* display = none; */
+  text-align: center;
+  /* margin-top: -100px; */
+  font-style: italic;
+  padding-top: 10px;
+}
+
+.caption a:visited {
+  color: #FFFFFF;
+  text-decoration: none;
+}
+
+.prev,
+.next {
+  cursor: pointer;
+  position: absolute;
+  top: auto;
+  width: auto;
+  padding: 16px;
+  margin-top: -220px;
+  /* margin-top: -50px; */
+  color: white;
+  font-weight: bold;
+  font-size: 20px;
+  border-radius: 0 3px 3px 0;
+  user-select: none;
+  -webkit-user-select: none;
+}
+
+.next {
+	right: 60px;
+}
+
+.next:hover, .prev:hover {
+	background-color: rgba(0,0,0,0.7);
+}
+
+footer hr {
+	border-color: rgb(1,1,1);
+}
+
+footer {
+	font-family: sans-serif;
+	font-size: 17px;
+	text-transform: uppercase;
+}
+
+.fa {
+	padding: 15px;
+	font-size: 30px;
+	width: 40px;
+	text-align: center;
+	text-decoration: none;
+}
+
+.fa:hover {
+	opacity: 0.7;
+}
+
+.fa-facebook {
+	background: #3B5998;
+	color: white;
+}
+
+.fa-twitter {
+	background: #55ACEE;
+	color: white;
+}
+
+.fa-search {
+	padding: 10px;
+	font-size: 30px;
+	width: 35px;
+}
+
+/*.search-container {
+    float: right;
+  	padding: 5px 20px 5px 0px;
+  	margin-top: 0px;
+  	margin-right: 0px;
+  	font-size: 14px;
+  	border: none;
+  	cursor: pointer;
+  }
+*/

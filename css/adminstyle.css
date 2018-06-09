@@ -1,0 +1,90 @@
+body {
+	font-family: Arial ;
+}
+
+.container .login {
+	margin-top: 160px;
+}
+
+.login h3 {
+	text-transform: uppercase;
+	color: white;
+}
+
+.login {
+	margin: 0px 35%;
+	padding: 20px 0px; 
+	background: #1E90FF;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+}
+
+.login form input {
+	color: black;
+	padding: 10px;
+	width: 80%;
+
+}
+
+.login form button {
+	padding: 14px 20px;
+	margin: 5px;
+	width: 50%;
+	text-align: center;
+	background-color: #32CD32;
+	color: white;
+	border: none;
+	text-transform: uppercase;
+}
+
+.header {
+	background: #A9A9A9;
+	height: 100px;
+	margin-top: -20px;
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.3), 0 6px 20px 0 rgba(0, 0, 0, 0.2);
+
+}
+
+h1 {
+	text-align: center;
+	font-size: 50px;
+	padding-top: 25px;
+	color: white;
+
+}
+
+.header p {
+	margin: -10px 0px 0px 10px;
+}
+
+a {
+	color: black;
+	text-decoration: none;
+}
+
+a:hover {
+	color: black;
+	text-decoration: none;
+}
+
+/*div #articles a {
+	text-transform: uppercase;
+	text-decoration: none;
+}*/
+
+.table input {
+	width: 50%;
+	padding: 5px 0px;
+}
+
+
+#articles button {
+	border: none;
+}
+
+#add, #ed {
+	display: none;
+}
+
+#edit {
+	display: none;
+}
