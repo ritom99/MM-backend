@@ -81,7 +81,11 @@ a:hover {
 	border: none;
 }
 
-#add, #ed {
+#pictures button {
+	border: none;
+}
+
+#add, #ed, #addpic, #delete {
 	display: none;
 }
 

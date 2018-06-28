@@ -23,12 +23,12 @@ class Post_model extends CI_Model {
 	}
 
 	public function get_featured_posts() {
-		$query = $this->db->query('SELECT * FROM posts WHERE id in (1,8)');
+		$query = $this->db->query('SELECT * FROM posts WHERE featured=1 LIMIT 2;');
 		return $query->result_array();
 	}
 
 	public function get_pictures() {
-		$query = $this->db->get('pictures');
+		$query = $this->db->query('SELECT * FROM pictures ORDER BY date DESC LIMIT 6;');
 		return $query->result_array();
 	}
 
@@ -61,12 +61,22 @@ class Post_model extends CI_Model {
 		$query = $this->db->query("DELETE FROM posts WHERE id='$id';");
 	}
 
+	public function delete_pic($id) {
+		$query = $this->db->query("DELETE FROM pictures WHERE id='$id';");
+	}
+
 	public function get_post($id) {
 		$query = $this->db->query("SELECT * FROM posts WHERE id='$id';");
 		return $query->row_array();
 	}
 
 	/*public function edit*/
+
+	public function add_pics($title, $image, $info, $date) {
+		
+		$query = $this->db->query("INSERT INTO pictures (title, image, info, date) values ('$title', '$image', '$info', '$date'); ");
+
+	}
 
 }
 

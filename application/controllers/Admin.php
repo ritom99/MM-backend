@@ -48,6 +48,7 @@ class Admin extends CI_Controller {
 	public function panel() {
 		if ($this->session->userdata('logged_in') == TRUE) {
 			$data['posts'] = $this->post_model->get_posts();
+			$data['pics'] = $this->post_model->get_pictures();
 
 			$this->load->view('admin/adminpanel', $data);
 		}
@@ -75,18 +76,34 @@ class Admin extends CI_Controller {
 		redirect('Admin/panel');
 	}
 
-	public function view_post($id) {
-		$data['post'] = $this->post_model->get_post($id);
-		return $data;
+	public function addpic() {
+			$title = $this->input->post('title');
+			$image = $this->input->post('image');
+			$info = $this->input->post('info');
+			$date = $this->input->post('date');
+
+		$this->post_model->add_pics($title, $image, $info, $date);
+		redirect('Admin/panel');
 	}
+
+
+	/*public function view_post($id) {	//editpost
+		$data['post'] = $this->post_model->get_post($id);
+		redirect $data;
+	}*/
 
 	public function delete($id) {
 		$this->post_model->delete_post($id);
 		redirect('Admin/panel');
 	}
 
+	public function deletepic($id) {
+		$this->post_model->delete_pic($id);
+		redirect('Admin/panel');
+	}
+
 	/*public function edit_post($id) {
-		
+
 	}*/
 
 }

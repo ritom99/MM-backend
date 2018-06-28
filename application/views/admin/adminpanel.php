@@ -102,7 +102,52 @@
 		</div>
 			
 		<div id="pictures" class="tab-pane fade" >
-			<p>Pictures</p>
+			<p><button onclick="contentpics('addpic')">Add </button>/<button onclick="contentpics('delete')">Delete</button> pictures.</p>
+			<div id="addpic">
+				<p>Add a picture.</p>
+				<form action="<?php echo site_url('Admin/addpic') ?>" method="post" autocomplete="off">
+					<div class="table-responsive">
+					<table class="table">
+					<tr>
+						<td><label>Title</label></td>
+						<td><input type="text" name="title" required></td>
+					</tr><tr>
+						<td><label>Image link</label></td>
+						<td><input type="text" name="image" required></td></tr>
+						<tr>
+						<td><label>Info</label></td>
+						<td><input type="text" name="info" required></td></tr>
+						<tr>
+						<td><label>Date <i>(yyyy-mm-dd)</i></label></td>
+						<td><input type="text" name="date" required></td></tr>	
+					</table>
+				</div>
+				<div style="text-align: center; padding: 10px 20px;">
+				<button style="text-transform: uppercase;" type="submit"><h5>Submit<h5></button>
+				</div>
+				</form>
+			</div>
+			<div id="delete">
+				<h3>Delete</h3><hr>
+				<?php foreach ($pics as $pic) : ?>
+					<div class="row">
+					<div class="col-md-7">
+					<p><?php echo $pic['title']; ?></p>
+					</div>
+					<div class="col-md-5">
+					<div class="row">
+					<div class="col-md-6 col-sm-6 col-xs-6">
+					<p style="text-align: left;"><small><?php echo $pic['date']; ?></small></p>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-6">
+					<p style="text-align: right;"><a href="<?php echo site_url('Admin/deletepic/'.$id=$pic['id']); ?>">DELETE</a></p>
+					</div>
+					</div>
+					</div>
+					</div>
+					<hr>
+				<?php endforeach; ?>
+			</div>
 		</div>
 		<div id="comments" class="tab-pane fade" >
 			<p>Comments</p>
@@ -122,6 +167,15 @@
 		show.style.display = 'block';
 
 	}
+
+	function contentpics(x) {
+		var show = document.getElementById(x);
+		document.getElementById('addpic').style.display = 'none';
+		document.getElementById('delete').style.display = 'none';
+		show.style.display = 'block';
+
+	}
+
 
 </script>
 </body>
