@@ -15,7 +15,8 @@
   			})
   		});
   	</script>
- --></head>
+ -->
+</head>
 <body>
 <div class="header">
 <h1>ADMIN PANEL</h1>
@@ -91,7 +92,9 @@
 					<p style="text-align: left;"><small><?php echo $post['author'].' | '.$post['date'] ?></small></p>
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-6">
-					<p style="text-align: right;"><a href="">EDIT</a> <a href="<?php echo site_url('Admin/delete/'.$id=$post['id']); ?>">DELETE</a></p>
+					<p style="text-align: right;"><button onclick="edit_post('<?php echo $post['id'] ?>')">EDIT</button>
+
+					<a href="<?php echo site_url('Admin/delete/'.$id=$post['id']); ?>">DELETE</a></p>
 					</div>
 					</div>
 					</div>
@@ -99,6 +102,46 @@
 					<hr>
 				<?php endforeach; ?>
 			</div>
+			<div id="editpost">
+			<?php foreach ($posts as $post) : ?>
+			<div id="<?php echo $post['id']; ?>" class="post">
+				<p>Edit article.</p>
+				<form action="<?php echo site_url('Admin/editpost/').$post['id']; ?>" method="post" autocomplete="off">
+					<div class="table-responsive">
+					<table class="table">
+					<tr>
+						<td><label>Title</label></td>
+						<td><input type="text" value="<?php echo $post['title']; ?>" name="title" required></td>
+					</tr><tr>
+						<td><label>Category</label></td>
+						<td><input type="text" value="<?php echo $post['category']; ?>" name="category" required></td>
+					</tr><tr>
+						<td><label>Slug</label></td>
+						<td><input type="text" value="<?php echo $post['slug']; ?>" name="slug" required></td></tr>
+						<tr>
+						<td><label>Image link</label></td>
+						<td><input type="text" value="<?php echo $post['image']; ?>" name="image" required></td></tr>
+						<tr>
+						<td><label>Info</label></td>
+						<td><input type="text" value="<?php echo $post['info']; ?>" name="info" required></td></tr>
+						<tr>
+						<td><label>Date <i>(yyyy-mm-dd)</i></label></td>
+						<td><input type="text" value="<?php echo $post['date']; ?>" name="date" required></td></tr>
+						<tr>
+						<td><label>Author</label></td>
+						<td><input type="text" value="<?php echo $post['author']; ?>" name="author" required></td></tr>
+						<tr>
+						<td><label>Body</label></td>
+						<td><textarea name="body" required col="40" row="4" style="height: 400px; width: 100%;"><?php echo $post['body']; ?></textarea></td></tr>
+					</table>
+				</div>
+				<div style="text-align: center; padding: 10px 20px;">
+				<button style="text-transform: uppercase;" type="submit"><h5>Submit<h5></button>
+				</div>
+				</form>
+			</div>
+			<?php endforeach; ?>
+		</div>
 		</div>
 			
 		<div id="pictures" class="tab-pane fade" >
@@ -164,6 +207,7 @@
 		var show = document.getElementById(x);
 		document.getElementById('add').style.display = 'none';
 		document.getElementById('ed').style.display = 'none';
+		document.getElementById('editpost').style.display = 'none';
 		show.style.display = 'block';
 
 	}
@@ -176,6 +220,23 @@
 
 	}
 
+	function edit_post(id) {
+		var show = document.getElementById(id);
+		document.getElementById('add').style.display = 'none';
+		document.getElementById('ed').style.display = 'none';
+		/*document.getElementsByClassName('post').style.display = 'none'*/;
+		document.getElementById('editpost').style.display = 'block';
+		
+		show.style.display = 'block';
+	}
+
+	/*function editpost(id) {
+		var show = document.getElementById(id);
+		document.getElementById('add').style.display = 'none';
+		document.getElementById('ed').style.display = 'none';
+		show.style.display = 'block';
+	}
+*/
 
 </script>
 </body>

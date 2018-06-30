@@ -70,7 +70,11 @@ class Post_model extends CI_Model {
 		return $query->row_array();
 	}
 
-	/*public function edit*/
+	public function edit_post($id, $title, $category, $slug, $image, $info, $date, $author, $body) {
+
+		$query = $this->db->query("UPDATE posts SET title='$title', category='$category', slug='$slug', image='$image', info='$info', date='$date', author='$author', body='$body' WHERE id=$id; ");
+
+	}
 
 	public function add_pics($title, $image, $info, $date) {
 		

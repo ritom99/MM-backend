@@ -92,3 +92,11 @@ a:hover {
 #edit {
 	display: none;
 }
+
+#editpost {
+	display: none;
+}
+
+.post {
+	display: none;
+}

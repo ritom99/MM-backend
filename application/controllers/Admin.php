@@ -102,9 +102,20 @@ class Admin extends CI_Controller {
 		redirect('Admin/panel');
 	}
 
-	/*public function edit_post($id) {
+	public function editpost($id) {
+		$title = $this->input->post('title');
+		$category = $this->input->post('category');
+		$slug = $this->input->post('slug');
+		$image = $this->input->post('image');
+		$info = $this->input->post('info');
+		$date = $this->input->post('date');
+		$author = $this->input->post('author');
+		$body = $this->input->post('body');
 
-	}*/
+		$this->post_model->edit_post($id, $title, $category, $slug, $image, $info, $date, $author, $body);
+		redirect('Admin/panel');
+
+	}
 
 }
 
