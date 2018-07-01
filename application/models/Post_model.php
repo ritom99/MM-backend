@@ -23,7 +23,16 @@ class Post_model extends CI_Model {
 	}
 
 	public function get_featured_posts() {
-		$query = $this->db->query('SELECT * FROM posts WHERE featured=1 LIMIT 2;');
+		$query = $this->db->query('SELECT * FROM posts WHERE featured=1 ORDER BY date DESC LIMIT 2;');
+		return $query->result_array();
+	}
+
+	public function get_tab_posts($tab) {
+		if ($tab != 'pictures') {
+			$query = $this->db->query("SELECT * FROM posts WHERE category='$tab' ORDER BY date desc; ");
+			return $query->result_array();
+		}
+		$query = $this->db->query("SELECT * FROM pictures ORDER BY date desc; ");
 		return $query->result_array();
 	}
 
@@ -46,10 +55,6 @@ class Post_model extends CI_Model {
 		$query = $this->db->query("SELECT * FROM posts WHERE category='$category' ORDER BY date DESC LIMIT 1,5;");
 		return $query->result_array();
 	}
-
-	/*public function update_views($slug) {
-		$query = $this->db->query("UPDATE posts SET views = views + 1 WHERE slug='$slug';");
-	}*/
 
 	public function add_posts($title, $category, $slug, $image, $info, $date, $author, $body) {
 		

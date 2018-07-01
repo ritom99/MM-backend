@@ -63,14 +63,14 @@ class Admin extends CI_Controller {
 	}
 
 	public function add() {
-			$title = $this->input->post('title');
-			$category = $this->input->post('category');
-			$slug = $this->input->post('slug');
-			$image = $this->input->post('image');
-			$info = $this->input->post('info');
-			$date = $this->input->post('date');
-			$author = $this->input->post('author');
-			$body = $this->input->post('body');
+		$title = $this->input->post('title');
+		$category = $this->input->post('category');
+		$slug = $this->input->post('slug');
+		$image = $this->input->post('image');
+		$info = $this->input->post('info');
+		$date = $this->input->post('date');
+		$author = $this->input->post('author');
+		$body = $this->input->post('body');
 
 		$this->post_model->add_posts($title, $category, $slug, $image, $info, $date, $author, $body);
 		redirect('Admin/panel');
