@@ -49,6 +49,10 @@ class Admin extends CI_Controller {
 		if ($this->session->userdata('logged_in') == TRUE) {
 			$data['posts'] = $this->post_model->get_posts();
 			$data['pics'] = $this->post_model->get_pictures();
+			$data['forumposts'] = $this->post_model->get_forum_posts(NULL);
+			$data['comments'] = $this->post_model->get_forum_thread(NULL);
+			$data['a_comments'] = $this->post_model->get_comments('approved', NULL);
+			$data['na_comments'] = $this->post_model->get_comments('notapproved', NULL);
 
 			$this->load->view('admin/adminpanel', $data);
 		}
@@ -115,6 +119,45 @@ class Admin extends CI_Controller {
 		$this->post_model->edit_post($id, $title, $category, $slug, $image, $info, $date, $author, $body);
 		redirect('Admin/panel');
 
+	}
+
+	public function addforumpost() {
+		$title = $this->input->post('title');
+		$date = $this->input->post('date');
+		$content = $this->input->post('content');
+		$user = $this->session->userdata('username');
+
+		$this->post_model->add_forum_post($user, $date, $title, $content);
+		redirect('Main/forum');
+	}
+
+	public function addforumcomment($id) {
+		$comment = $this->input->post('comment');
+		$user = $this->session->userdata('username');
+
+		$this->post_model->add_forum_comment($id, $user, $comment);
+		redirect('Main/forum/'.$id);
+
+	}
+
+	public function deleteforumpost($id) {
+		$this->post_model->delete_forum_post($id);
+		redirect('Admin/panel');
+	}
+
+	public function addcomment($id) {
+		$comment = $this->input->post('comment');
+		$user = $this->session->userdata('username');
+		$data['post'] = $this->post_model->get_post($id);
+
+		$this->post_model->add_comment($id, $user, $comment);
+		redirect('Main/articles/'.$data['post']['slug']);
+	}
+
+	public function approvecomment($id) {
+		$this->post_model->approve_comment($id);
+
+		redirect('Admin/panel');
 	}
 
 }

@@ -85,7 +85,15 @@ a:hover {
 	border: none;
 }
 
-#add, #ed, #addpic, #delete {
+#forum button {
+	border: none;
+}
+
+#comments button {
+	border: none;
+}
+
+#add, #ed, #addpic, #delete, #pending, #approved {
 	display: none;
 }
 
@@ -100,3 +108,7 @@ a:hover {
 .post {
 	display: none;
 }
+
+#forumcomments {
+	display: none;
+} 

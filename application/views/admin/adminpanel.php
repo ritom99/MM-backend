@@ -28,6 +28,7 @@
 		<li class="active"><a data-toggle="tab" href="#home">Home</a></li>
 		<li class="dropdown-m"><a data-toggle="tab" href="#articles">Articles</a></li>
 		<li><a data-toggle="tab" href="#pictures">Pictures</a></li>
+		<li><a data-toggle="tab" href="#forum">Forum</a></li>
 		<li><a data-toggle="tab" href="#comments">Comments</a></li>
 		<li><a data-toggle="tab" href="#polls">Polls</a></li>
 	</ul>
@@ -192,8 +193,76 @@
 				<?php endforeach; ?>
 			</div>
 		</div>
+		<div id="forum" class="tab-pane fade" >
+			<h4>Forum</h4><hr>
+			<!-- <div id="forum_posts">
+			<?php foreach ($forumposts as $post) : ?>
+			<div class="row">
+					<div class="col-md-7">
+					<p><?php echo $post['title']; ?></p>
+					</div>
+					<div class="col-md-5">
+					<div class="row">
+					<div class="col-md-6 col-sm-6 col-xs-6">
+					<p style="text-align: left;"><small><?php echo $post['created_by'].' | '.$post['date']; ?></small></p>
+					</div>
+					<div class="col-md-6 col-sm-6 col-xs-6">
+					<p style="text-align: right;">
+						<button onclick="show_forum_post('<?php echo $post['post_id']; ?>')">VIEW THREAD</button>
+						<a href="<?php echo site_url('Admin/deleteforumpost/'.$post['post_id']); ?>">DELETE</a></p>
+					</div>
+					</div>
+					</div>
+					</div>
+					<hr>
+			<?php endforeach; ?>
+			</div>
+			<div id="forumcomments">
+			<button onclick="backforum()">BACK</button>
+			<br><br>
+			<?php foreach ($comments as $comment) : ?>
+				<div class="<?php echo 'thread'.$comment['post_id']; ?>" style="display: none;">
+					<div class="row">
+				<div class="col-md-6">
+					<p><?php echo $comment['body']; ?></p>
+				</div>
+				<div class="col-md-6">
+					<div class="row">
+						<div class="col-md-7 col-sm-7 col-xs-7">
+							<?php echo $comment['user'].' | '.$comment['date']; ?>
+						</div>
+						<div class="col-md-5 col-sm-5 col-xs-5">
+							<a href="<?php echo site_url('Admin/deleteforumcomment/'.$comment['comment_id']); ?>">DELETE</a>
+						</div>
+					</div>
+				</div>
+			</div>
+				</div>			
+		<?php endforeach; ?>
+		</div> -->
+		</div>
 		<div id="comments" class="tab-pane fade" >
-			<p>Comments</p>
+			<button onclick="comments('pending')">Pending</button>/
+			<button onclick="comments('approved')">Approved</button>
+			<br><br>
+			<div id="pending">
+				<p><h4>Pending comments</h4></p><hr>
+				<?php foreach ($na_comments as $comment) :?>
+					<div class="row">
+					<div class="col-md-7 col-sm-7">
+					<p><?php echo $comment['content']; ?></p>
+					</div>
+					<div class="col-md-5 col-sm-5">
+						<div class="col-md-6"><?php echo $comment['user'].' | '.$comment['date'] ?></div>
+						<div class="col-md-6">
+						<p style="text-align: right;"><a href="<?php echo site_url('Admin/approvecomment/').$comment['comment_id']; ?>">Approve</a></p></div>
+					</div>
+					</div><hr>
+				<?php endforeach; ?>
+			</div>
+			<div id="approved">
+				Approved comments
+			</div>
 		</div>
 		<div id="polls" class="tab-pane fade" >
 			<p>Polls</p>
@@ -221,14 +290,44 @@
 	}
 
 	function edit_post(id) {
+		var i = 0;
 		var show = document.getElementById(id);
 		document.getElementById('add').style.display = 'none';
 		document.getElementById('ed').style.display = 'none';
-		/*document.getElementsByClassName('post').style.display = 'none'*/;
+		var posts = document.getElementsByClassName('post');
+		for (i = 0; i < posts.length; i++) {
+      		posts[i].style.display = "none";
+  		}
 		document.getElementById('editpost').style.display = 'block';
 		
 		show.style.display = 'block';
 	}
+
+	function show_forum_post(x) {
+		var i = 0;
+		var id = x;
+		document.getElementById('forum_posts').style.display = 'none';
+		document.getElementById('forumcomments').style.display = 'block';
+		var comments = document.getElementsByClassName('thread' + id);
+		for (i = 0; i < comments.length; i++) {
+			comments[i].style.display = 'block';
+		}
+	}
+
+	function backforum() {
+		document.getElementById('forumcomments').style.display = 'none';
+		document.getElementById('forum_posts').style.display = 'block';
+	}
+
+	function comments(x) {
+		document.getElementById('pending').style.display = 'none';
+		document.getElementById('approved').style.display = 'none';
+		document.getElementById(x).style.display = 'block';
+	}
+
+/*	function show_forum_thread() {
+
+	}*/
 
 	/*function editpost(id) {
 		var show = document.getElementById(id);

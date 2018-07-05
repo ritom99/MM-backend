@@ -57,6 +57,7 @@ $route['translate_uri_dashes'] = FALSE;
 $route['(:any)'] = 'main/$1';
 $route['admin'] = 'Admin/index';
 $route['pictures/(:any)'] = 'main/pictures/$1';
+$route['forum/(:any)'] = 'main/forum/$1';
 $route['api/post/get/featured'] = 'api/getfeaturedposts';
 $route['api/post/get/posts'] = 'api/getposts';
 $route['api/post/get/tab/(:any)'] = 'api/gettabposts/$1';

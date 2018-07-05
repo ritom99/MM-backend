@@ -87,6 +87,61 @@ class Post_model extends CI_Model {
 
 	}
 
+	public function get_forum_posts($id) {
+		if ($id != NULL) {
+			$query = $this->db->query("SELECT * FROM forumposts WHERE post_id='$id' ORDER BY date DESC; ");
+			return $query->row_array();
+		}
+
+		$query = $this->db->query("SELECT * FROM forumposts ORDER BY date DESC; ");
+		return $query->result_array();
+	}
+
+	public function get_forum_thread($id) {
+		if ($id == NULL) {
+			$query = $this->db->query("SELECT * FROM forumthread ORDER BY date desc; ");
+			return $query->result_array();
+		}
+		$query = $this->db->query("SELECT * FROM forumthread WHERE post_id='$id' ORDER BY date desc; ");
+		return $query->result_array();
+	}
+
+	public function add_forum_post($user, $title, $content) {
+		$slug = url_title($title);
+		$query = $this->db->query("INSERT INTO forumposts (slug, created_by, title, post) values ('$slug', '$user', '$title', '$content'); ");
+	}
+
+	public function add_forum_comment($id, $user, $comment) {
+		$query = $this->db->query("INSERT INTO forumthread (post_id, user, body) VALUES ('$id', '$user', '$comment'); ");
+	}
+
+	public function delete_forum_post($id) {
+		$query = $this->db->query("DELETE FROM forumposts WHERE post_id='$id';");
+	}
+
+	public function get_comments($status = 'approved', $id = NULL) {
+		if ($id != NULL and $status == 'approved') {
+			$query = $this->db->query("SELECT * FROM comments WHERE post_id='$id' AND status='approved' ORDER BY date DESC; ");
+			return $query->result_array();
+		}
+		elseif ($id == NULL and $status == 'approved' ) {
+			$query = $this->db->query("SELECT * FROM comments WHERE status='approved' ORDER BY date DESC; ");
+			return $query->result_array();
+		}
+		elseif ($id == NULL and $status == 'notapproved') {
+			$query = $this->db->query("SELECT * FROM comments WHERE status='notapproved' ORDER BY date DESC; ");
+			return $query->result_array();
+		}
+	}
+
+	public function add_comment($id, $user, $comment) {
+		$query = $this->db->query("INSERT INTO comments (post_id, user, content) VALUES ('$id', '$user', '$comment'); ");
+	}
+
+	public function approve_comment($id) {
+		$query = $this->db->query("UPDATE comments SET status='approved' WHERE comment_id='$id'; ");
+	}
+
 }
 
 ?>
