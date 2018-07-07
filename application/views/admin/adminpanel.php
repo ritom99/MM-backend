@@ -46,7 +46,7 @@
 			<p><button onclick="content('add')">Add </button>/<button onclick="content('ed')">Edit </button>/<button onclick="content('ed')">Delete</button> articles.</p>
 			<div id="add">
 				<p>Add new articles.</p>
-				<form action="<?php echo site_url('Admin/add') ?>" method="post" autocomplete="off">
+				<?php echo form_open_multipart('Admin/add'); ?>
 					<div class="table-responsive">
 					<table class="table">
 					<tr>
@@ -54,19 +54,17 @@
 						<td><input type="text" name="title" required></td>
 					</tr><tr>
 						<td><label>Category</label></td>
-						<td><input type="text" name="category" required></td>
+						<td><select id="category" name="category">
+							<option style="display: none;"></option>
+							<option>Business and Tech</option>
+							<option>Sports</option>
+						</select></td>
 					</tr><tr>
-						<td><label>Slug</label></td>
-						<td><input type="text" name="slug" required></td></tr>
-						<tr>
-						<td><label>Image link</label></td>
-						<td><input type="text" name="image" required></td></tr>
+						<td><label>Image</label></td>
+						<td><input style="padding: 3px;" type="file" name="userfile"></td></tr>
 						<tr>
 						<td><label>Info</label></td>
 						<td><input type="text" name="info" required></td></tr>
-						<tr>
-						<td><label>Date <i>(yyyy-mm-dd)</i></label></td>
-						<td><input type="text" name="date" required></td></tr>
 						<tr>
 						<td><label>Author</label></td>
 						<td><input type="text" name="author" required></td></tr>
@@ -76,7 +74,7 @@
 					</table>
 				</div>
 				<div style="text-align: center; padding: 10px 20px;">
-				<button style="text-transform: uppercase;" type="submit"><h5>Submit<h5></button>
+				<input type="submit" value="upload" />
 				</div>
 				</form>
 			</div>
@@ -107,7 +105,7 @@
 			<?php foreach ($posts as $post) : ?>
 			<div id="<?php echo $post['id']; ?>" class="post">
 				<p>Edit article.</p>
-				<form action="<?php echo site_url('Admin/editpost/').$post['id']; ?>" method="post" autocomplete="off">
+				<?php echo form_open_multipart('Admin/editpost/'.$post['id']); ?>
 					<div class="table-responsive">
 					<table class="table">
 					<tr>
@@ -115,19 +113,16 @@
 						<td><input type="text" value="<?php echo $post['title']; ?>" name="title" required></td>
 					</tr><tr>
 						<td><label>Category</label></td>
-						<td><input type="text" value="<?php echo $post['category']; ?>" name="category" required></td>
+						<td><select id="category" name="category">
+							<option <?php if ($post['category'] == 'BusinessandTech') {echo "selected";} ?> >Business and Tech</option>
+							<option <?php if ($post['category'] == 'Sports') {echo "selected";} ?> >Sports</option>
+						</select></td>
 					</tr><tr>
-						<td><label>Slug</label></td>
-						<td><input type="text" value="<?php echo $post['slug']; ?>" name="slug" required></td></tr>
-						<tr>
-						<td><label>Image link</label></td>
-						<td><input type="text" value="<?php echo $post['image']; ?>" name="image" required></td></tr>
+						<td><label>Image</label></td>
+						<td><input type="file" name="userfile"><?php echo $post['image'] ?></td></tr>
 						<tr>
 						<td><label>Info</label></td>
 						<td><input type="text" value="<?php echo $post['info']; ?>" name="info" required></td></tr>
-						<tr>
-						<td><label>Date <i>(yyyy-mm-dd)</i></label></td>
-						<td><input type="text" value="<?php echo $post['date']; ?>" name="date" required></td></tr>
 						<tr>
 						<td><label>Author</label></td>
 						<td><input type="text" value="<?php echo $post['author']; ?>" name="author" required></td></tr>
@@ -149,21 +144,18 @@
 			<p><button onclick="contentpics('addpic')">Add </button>/<button onclick="contentpics('delete')">Delete</button> pictures.</p>
 			<div id="addpic">
 				<p>Add a picture.</p>
-				<form action="<?php echo site_url('Admin/addpic') ?>" method="post" autocomplete="off">
+				<?php echo form_open_multipart('Admin/addpic'); ?>
 					<div class="table-responsive">
 					<table class="table">
 					<tr>
 						<td><label>Title</label></td>
 						<td><input type="text" name="title" required></td>
 					</tr><tr>
-						<td><label>Image link</label></td>
-						<td><input type="text" name="image" required></td></tr>
+						<td><label>Image</label></td>
+						<td><input type="file" name="userfile"></td></tr>
 						<tr>
 						<td><label>Info</label></td>
 						<td><input type="text" name="info" required></td></tr>
-						<tr>
-						<td><label>Date <i>(yyyy-mm-dd)</i></label></td>
-						<td><input type="text" name="date" required></td></tr>	
 					</table>
 				</div>
 				<div style="text-align: center; padding: 10px 20px;">
@@ -247,6 +239,9 @@
 			<br><br>
 			<div id="pending">
 				<p><h4>Pending comments</h4></p><hr>
+				<p><?php if (!$na_comments) { ?>
+					<i>No pending comments.</i>
+				<?php } ?></p>
 				<?php foreach ($na_comments as $comment) :?>
 					<div class="row">
 					<div class="col-md-7 col-sm-7">
@@ -255,13 +250,27 @@
 					<div class="col-md-5 col-sm-5">
 						<div class="col-md-6"><?php echo $comment['user'].' | '.$comment['date'] ?></div>
 						<div class="col-md-6">
-						<p style="text-align: right;"><a href="<?php echo site_url('Admin/approvecomment/').$comment['comment_id']; ?>">Approve</a></p></div>
+						<p style="text-align: right;"><a href="<?php echo site_url('Admin/approvecomment/').$comment['comment_id']; ?>">APPROVE</a> 
+							<a href="<?php echo site_url('Admin/deletecomment/').$comment['comment_id']; ?>">DELETE</a></p></div>
 					</div>
 					</div><hr>
 				<?php endforeach; ?>
 			</div>
 			<div id="approved">
-				Approved comments
+				<p><h4>Approved comments</h4></p><hr>
+				<?php foreach ($a_comments as $comment) :?>
+					<div class="row">
+					<div class="col-md-7 col-sm-7">
+					<p><?php echo $comment['content']; ?></p>
+					</div>
+					<div class="col-md-5 col-sm-5">
+						<div class="col-md-6"><?php echo $comment['user'].' | '.$comment['date'] ?></div>
+						<div class="col-md-6">
+						<p style="text-align: right;"> 
+							<a href="<?php echo site_url('Admin/deletecomment/').$comment['comment_id']; ?>">DELETE</a></p></div>
+					</div>
+					</div><hr>
+				<?php endforeach; ?>
 			</div>
 		</div>
 		<div id="polls" class="tab-pane fade" >

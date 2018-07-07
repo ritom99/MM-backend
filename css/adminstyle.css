@@ -66,6 +66,14 @@ a:hover {
 	text-decoration: none;
 }
 
+#category {
+	padding: 3px;
+}
+
+/*#image {
+	padding: 3px;
+}*/
+
 /*div #articles a {
 	text-transform: uppercase;
 	text-decoration: none;

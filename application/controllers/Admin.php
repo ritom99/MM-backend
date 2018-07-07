@@ -7,6 +7,7 @@ class Admin extends CI_Controller {
 	function __construct() {
 		parent::__construct();
 		$this->load->library('form_validation');
+		$this->load->library('upload');
 	}
 
 	public function index() {
@@ -53,6 +54,7 @@ class Admin extends CI_Controller {
 			$data['comments'] = $this->post_model->get_forum_thread(NULL);
 			$data['a_comments'] = $this->post_model->get_comments('approved', NULL);
 			$data['na_comments'] = $this->post_model->get_comments('notapproved', NULL);
+			$data['error'] = '';
 
 			$this->load->view('admin/adminpanel', $data);
 		}
@@ -69,32 +71,54 @@ class Admin extends CI_Controller {
 	public function add() {
 		$title = $this->input->post('title');
 		$category = $this->input->post('category');
-		$slug = $this->input->post('slug');
-		$image = $this->input->post('image');
+		$slug = url_title($title);
 		$info = $this->input->post('info');
-		$date = $this->input->post('date');
 		$author = $this->input->post('author');
 		$body = $this->input->post('body');
 
-		$this->post_model->add_posts($title, $category, $slug, $image, $info, $date, $author, $body);
+		$config['upload_path'] = './images/';
+		$config['allowed_types'] = 'gif|jpg|png|jpeg';
+		$config['max_size']    = '16777215';
+        $config['max_width']  = '3000';
+        $config['max_height']  = '3000';
+	    $this->upload->initialize($config);
+
+	    if ($this->upload->do_upload('userfile')) {
+        	$image = $this->upload->data('file_name');
+        	/*$image = $image_data['file_name'];*/
+
+
+		$this->post_model->add_posts($title, $category, $slug, $image, $info, $author, $body);
 		redirect('Admin/panel');
+		}
+
+		else {
+			$error = array('error' => $this->upload->display_errors());
+			$this->load->view('admin/adminpanel', $error);		}
+
 	}
 
 	public function addpic() {
-			$title = $this->input->post('title');
-			$image = $this->input->post('image');
-			$info = $this->input->post('info');
-			$date = $this->input->post('date');
+		$title = $this->input->post('title');
+		$info = $this->input->post('info');
 
-		$this->post_model->add_pics($title, $image, $info, $date);
+		$config['upload_path'] = './images/';
+		$config['allowed_types'] = 'gif|jpg|png|jpeg';
+		$config['max_size']    = '16777215';
+        $config['max_width']  = '3000';
+        $config['max_height']  = '3000';
+	    $this->upload->initialize($config);
+
+	    if ($this->upload->do_upload('userfile')) {
+        	$image = $this->upload->data('file_name');
+        	/*$image = $image_data['file_name'];*/
+
+
+		$this->post_model->add_pics($title, $image, $info);
 		redirect('Admin/panel');
+		}
 	}
 
-
-	/*public function view_post($id) {	//editpost
-		$data['post'] = $this->post_model->get_post($id);
-		redirect $data;
-	}*/
 
 	public function delete($id) {
 		$this->post_model->delete_post($id);
@@ -109,15 +133,30 @@ class Admin extends CI_Controller {
 	public function editpost($id) {
 		$title = $this->input->post('title');
 		$category = $this->input->post('category');
-		$slug = $this->input->post('slug');
-		$image = $this->input->post('image');
 		$info = $this->input->post('info');
-		$date = $this->input->post('date');
 		$author = $this->input->post('author');
 		$body = $this->input->post('body');
 
-		$this->post_model->edit_post($id, $title, $category, $slug, $image, $info, $date, $author, $body);
+		$config['upload_path'] = './images/';
+		$config['allowed_types'] = 'gif|jpg|png|jpeg';
+		$config['max_size']    = '16777215';
+        $config['max_width']  = '3000';
+        $config['max_height']  = '3000';
+	    $this->upload->initialize($config);
+
+	    if ($this->upload->do_upload('userfile')) {
+        	$image = $this->upload->data('file_name');
+        	/*$image = $image_data['file_name'];*/
+
+
+		$this->post_model->edit_post($id, $title, $category, $image, $info, $author, $body);
 		redirect('Admin/panel');
+		}
+
+		else {
+			$this->post_model->edit_post($id, $title, $category, $image=NULL, $info, $author, $body);
+			redirect('Admin/panel');
+		}
 
 	}
 
@@ -156,6 +195,12 @@ class Admin extends CI_Controller {
 
 	public function approvecomment($id) {
 		$this->post_model->approve_comment($id);
+
+		redirect('Admin/panel');
+	}
+
+	public function deletecomment($id) {
+		$this->post_model->delete_comment($id);
 
 		redirect('Admin/panel');
 	}

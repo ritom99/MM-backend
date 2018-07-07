@@ -56,9 +56,9 @@ class Post_model extends CI_Model {
 		return $query->result_array();
 	}
 
-	public function add_posts($title, $category, $slug, $image, $info, $date, $author, $body) {
+	public function add_posts($title, $category, $slug, $image, $info, $author, $body) {
 		
-		$query = $this->db->query("INSERT INTO posts (title, category, slug, image, info, date, author, body, views) values ('$title', '$category', '$slug', '$image', '$info', '$date', '$author', '$body', 0); ");
+		$query = $this->db->query("INSERT INTO posts (title, category, slug, image, info, author, body) values ('$title', '$category', '$slug', '$image', '$info', '$author', '$body'); ");
 
 	}
 
@@ -75,15 +75,18 @@ class Post_model extends CI_Model {
 		return $query->row_array();
 	}
 
-	public function edit_post($id, $title, $category, $slug, $image, $info, $date, $author, $body) {
-
-		$query = $this->db->query("UPDATE posts SET title='$title', category='$category', slug='$slug', image='$image', info='$info', date='$date', author='$author', body='$body' WHERE id=$id; ");
-
+	public function edit_post($id, $title, $category, $image, $info, $author, $body) {
+		if ($image != NULL) {
+			$query = $this->db->query("UPDATE posts SET title='$title', category='$category', image='$image', info='$info', author='$author', body='$body' WHERE id=$id; ");
+		}
+		else {
+			$query = $this->db->query("UPDATE posts SET title='$title', category='$category', info='$info', author='$author', body='$body' WHERE id=$id; ");
+		}
 	}
 
-	public function add_pics($title, $image, $info, $date) {
+	public function add_pics($title, $image, $info) {
 		
-		$query = $this->db->query("INSERT INTO pictures (title, image, info, date) values ('$title', '$image', '$info', '$date'); ");
+		$query = $this->db->query("INSERT INTO pictures (title, image, info) values ('$title', '$image', '$info'); ");
 
 	}
 
@@ -140,6 +143,10 @@ class Post_model extends CI_Model {
 
 	public function approve_comment($id) {
 		$query = $this->db->query("UPDATE comments SET status='approved' WHERE comment_id='$id'; ");
+	}
+
+	public function delete_comment($id) {
+		$query = $this->db->query("DELETE FROM comments WHERE comment_id='$id'; ");
 	}
 
 }
