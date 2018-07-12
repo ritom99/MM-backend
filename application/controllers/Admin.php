@@ -12,7 +12,11 @@ class Admin extends CI_Controller {
 
 	public function index() {
 		/*$username = $this->input->post()*/
-		$this->load->view('admin/login');
+		if (!$this->session->userdata('logged_in') == TRUE) {
+			$this->load->view('admin/login');
+		} else {
+			$this->load->view('admin/panel');
+		}
 	}
 
 	public function login() {
@@ -51,9 +55,11 @@ class Admin extends CI_Controller {
 			$data['posts'] = $this->post_model->get_posts();
 			$data['pics'] = $this->post_model->get_pictures();
 			$data['forumposts'] = $this->post_model->get_forum_posts(NULL);
-			$data['comments'] = $this->post_model->get_forum_thread(NULL);
+			$data['threads'] = $this->post_model->get_forum_thread(NULL);
 			$data['a_comments'] = $this->post_model->get_comments('approved', NULL);
 			$data['na_comments'] = $this->post_model->get_comments('notapproved', NULL);
+			$data['u_questions'] = $this->post_model->get_questions(TRUE);
+			$data['a_questions'] = $this->post_model->get_questions();
 			$data['error'] = '';
 
 			$this->load->view('admin/adminpanel', $data);
@@ -184,6 +190,12 @@ class Admin extends CI_Controller {
 		redirect('Admin/panel');
 	}
 
+	public function deleteforumthread($id) {
+		$this->post_model->delete_forum_thread($id);
+
+		redirect('Admin/panel');
+	}
+
 	public function addcomment($id) {
 		$comment = $this->input->post('comment');
 		$user = $this->session->userdata('username');
@@ -201,6 +213,27 @@ class Admin extends CI_Controller {
 
 	public function deletecomment($id) {
 		$this->post_model->delete_comment($id);
+
+		redirect('Admin/panel');
+	}
+
+	public function askaq() {
+		$question = $this->input->post('question');
+		$this->post_model->ask_a_question($question);
+		$this->session->set_flashdata('question_success', 'Your question has been successfully submitted!');
+
+		redirect('Main/askaquestion');
+	}
+
+	public function deletequestion($id) {
+		$this->post_model->delete_q($id);
+
+		redirect('Admin/panel');
+	}
+
+	public function addanswer($id) {
+		$answer = $this->input->post('answer');
+		$this->post_model->add_answer($id, $answer);
 
 		redirect('Admin/panel');
 	}

@@ -31,6 +31,7 @@
 		<li><a data-toggle="tab" href="#forum">Forum</a></li>
 		<li><a data-toggle="tab" href="#comments">Comments</a></li>
 		<li><a data-toggle="tab" href="#polls">Polls</a></li>
+		<li><a data-toggle="tab" href="#askaq">Ask a question</a></li>
 	</ul>
 	<br>
 	<div class="tab-content">
@@ -73,8 +74,8 @@
 						<td><textarea name="body" required col="40" row="4" style="height: 400px; width: 100%;"></textarea></td></tr>
 					</table>
 				</div>
-				<div style="text-align: center; padding: 10px 20px;">
-				<input type="submit" value="upload" />
+				<div style="text-align: center; padding: 0px 20px;">
+				<input type="submit" value="Submit" />
 				</div>
 				</form>
 			</div>
@@ -93,7 +94,7 @@
 					<div class="col-md-6 col-sm-6 col-xs-6">
 					<p style="text-align: right;"><button onclick="edit_post('<?php echo $post['id'] ?>')">EDIT</button>
 
-					<a href="<?php echo site_url('Admin/delete/'.$id=$post['id']); ?>">DELETE</a></p>
+					<a href="<?php echo site_url('Admin/delete/'.$id=$post['id']); ?>" onclick="return confirm('Are you sure you want to delete the article?');">DELETE</a></p>
 					</div>
 					</div>
 					</div>
@@ -176,7 +177,7 @@
 					<p style="text-align: left;"><small><?php echo $pic['date']; ?></small></p>
 					</div>
 					<div class="col-md-6 col-sm-6 col-xs-6">
-					<p style="text-align: right;"><a href="<?php echo site_url('Admin/deletepic/'.$id=$pic['id']); ?>">DELETE</a></p>
+					<p style="text-align: right;"><a href="<?php echo site_url('Admin/deletepic/'.$id=$pic['id']); ?>" onclick="return confirm('Are you sure want to delete the picture?');">DELETE</a></p>
 					</div>
 					</div>
 					</div>
@@ -187,51 +188,47 @@
 		</div>
 		<div id="forum" class="tab-pane fade" >
 			<h4>Forum</h4><hr>
-			<!-- <div id="forum_posts">
-			<?php foreach ($forumposts as $post) : ?>
-			<div class="row">
-					<div class="col-md-7">
-					<p><?php echo $post['title']; ?></p>
+			<div id="forumposts">
+				<?php foreach ($forumposts as $post) : ?>
+				<div class="row">
+					<div class="col-md-7 col-sm-7">
+						<p><?php echo $post['title']; ?></p>
+						<p><small><?php echo $post['post']; ?></small></p>
 					</div>
-					<div class="col-md-5">
-					<div class="row">
-					<div class="col-md-6 col-sm-6 col-xs-6">
-					<p style="text-align: left;"><small><?php echo $post['created_by'].' | '.$post['date']; ?></small></p>
+					<div class="col-md-5 col-sm-5">
+						<div class="row">
+							<div class="col-md-6 col-sm-6 col-xs-6">
+								<p><small><?php echo $post['created_by'].' | '.$post['date']; ?></small></p>
+							</div>
+							<div class="col-md-6 col-sm-6 col-xs-6" style="text-align: right;">
+								<p><button onclick="showthread('<?php echo $post['post_id'] ?>')" style="border: none;">VIEW REPLIES</button>
+									<a href="<?php echo site_url('Admin/deleteforumpost/').$post['post_id']; ?>" onclick="return confirm('Are you sure you want to delete this thread?');">DELETE</a></p>
+							</div>
+						</div>
 					</div>
-					<div class="col-md-6 col-sm-6 col-xs-6">
-					<p style="text-align: right;">
-						<button onclick="show_forum_post('<?php echo $post['post_id']; ?>')">VIEW THREAD</button>
-						<a href="<?php echo site_url('Admin/deleteforumpost/'.$post['post_id']); ?>">DELETE</a></p>
-					</div>
-					</div>
-					</div>
-					</div>
-					<hr>
+				</div>
+				<hr>
 			<?php endforeach; ?>
 			</div>
-			<div id="forumcomments">
-			<button onclick="backforum()">BACK</button>
-			<br><br>
-			<?php foreach ($comments as $comment) : ?>
-				<div class="<?php echo 'thread'.$comment['post_id']; ?>" style="display: none;">
-					<div class="row">
-				<div class="col-md-6">
-					<p><?php echo $comment['body']; ?></p>
-				</div>
-				<div class="col-md-6">
-					<div class="row">
-						<div class="col-md-7 col-sm-7 col-xs-7">
-							<?php echo $comment['user'].' | '.$comment['date']; ?>
+			<div id="thread">
+				<?php foreach ($threads as $comment) : ?>
+					<div class="<?php echo $comment['post_id'] ?>" style="display: none;">	
+						<div class="row">	
+						<div class="col-md-7">
+							<p><?php echo $comment['body']; ?></p>
 						</div>
-						<div class="col-md-5 col-sm-5 col-xs-5">
-							<a href="<?php echo site_url('Admin/deleteforumcomment/'.$comment['comment_id']); ?>">DELETE</a>
+						<div class="col-md-5">
+							<div class="row">
+							<div class="col-md-6 col-sm-6 col-xs-6"><p><small><?php echo $comment['user'].' | '.$comment['date']; ?></small></p></div>
+							<div class="col-md-6 col-sm-6 col-xs-6" style="text-align: right;">
+							<a href="<?php echo site_url('Admin/deleteforumthread/').$comment['comment_id']; ?>" onclick="return confirm('Are you sure you want to delete this comment?');">DELETE</a></div></div>
 						</div>
 					</div>
-				</div>
+					<hr>
+					</div>
+					
+				<?php endforeach; ?>
 			</div>
-				</div>			
-		<?php endforeach; ?>
-		</div> -->
 		</div>
 		<div id="comments" class="tab-pane fade" >
 			<button onclick="comments('pending')">Pending</button>/
@@ -251,7 +248,7 @@
 						<div class="col-md-6"><?php echo $comment['user'].' | '.$comment['date'] ?></div>
 						<div class="col-md-6">
 						<p style="text-align: right;"><a href="<?php echo site_url('Admin/approvecomment/').$comment['comment_id']; ?>">APPROVE</a> 
-							<a href="<?php echo site_url('Admin/deletecomment/').$comment['comment_id']; ?>">DELETE</a></p></div>
+							<a href="<?php echo site_url('Admin/deletecomment/').$comment['comment_id']; ?>" onclick="return confirm('Are you sure you want to delete the comment?');">DELETE</a></p></div>
 					</div>
 					</div><hr>
 				<?php endforeach; ?>
@@ -267,7 +264,7 @@
 						<div class="col-md-6"><?php echo $comment['user'].' | '.$comment['date'] ?></div>
 						<div class="col-md-6">
 						<p style="text-align: right;"> 
-							<a href="<?php echo site_url('Admin/deletecomment/').$comment['comment_id']; ?>">DELETE</a></p></div>
+							<a href="<?php echo site_url('Admin/deletecomment/').$comment['comment_id']; ?>" onclick="return confirm('Are you sure you want to delete the comment?');">DELETE</a></p></div>
 					</div>
 					</div><hr>
 				<?php endforeach; ?>
@@ -275,6 +272,53 @@
 		</div>
 		<div id="polls" class="tab-pane fade" >
 			<p>Polls</p>
+		</div>
+		<div id="askaq" class="tab-pane fade" >
+			<button onclick="askaq('pendingq')">Pending</button>/
+			<button onclick="askaq('answered')">Answered</button>
+			<br><br>
+			<div id="pendingq">
+				<p><h4>Pending quesions</h4></p><hr>
+				<p><?php if (!$u_questions) { ?>
+					<i>No pending questions to be answered.</i>
+				<?php } ?></p>
+				<?php foreach ($u_questions as $question) :?>
+					<div class="row">
+					<div class="col-md-8">
+					<p>Q : <?php echo $question['question']; ?></p>
+					<form action="<?php echo site_url('Admin/addanswer/').$question['question_id']; ?>" method="post" autocomplete="off">
+						<textarea rows="2" cols="80" name="answer" placeholder="Write an answer"></textarea>
+						<!-- <input type="text" name="answer" placeholder="Write an answer.." style="width: 40%;"> -->
+						<br>
+						<button type="submit">SUBMIT</button>
+					</form>
+					</div>
+					<div class="col-md-4">
+						<div class="col-md-6 col-sm-6 col-xs-6"><?php echo $question['date'] ?></div>
+						<div class="col-md-6 col-sm-6 col-xs-6">
+						<p style="text-align: right;"> 
+							<a href="<?php echo site_url('Admin/deletequestion/').$question['question_id']; ?>" onclick="return confirm('Are you sure you want to delete the question?');">DELETE</a></p></div>
+					</div>
+					</div><hr>
+				<?php endforeach; ?>
+			</div>
+			<div id="answered">
+				<p><h4>Answered questions</h4></p><hr>
+				<?php foreach ($a_questions as $question) :?>
+					<div class="row">
+					<div class="col-md-8">
+					<p>Q : <?php echo $question['question']; ?></p>
+					<p>A : <?php echo $question['answer']; ?></p>
+					</div>
+					<div class="col-md-4">
+						<div class="col-md-6 col-sm-6 col-xs-6"><?php echo $question['date'] ?></div>
+						<div class="col-md-6 col-sm-6 col-xs-6">
+						<p style="text-align: right;"> 
+							<a href="<?php echo site_url('Admin/deletequestion/').$question['question_id']; ?>" onclick="return confirm('Are you sure you want to delete the question?');">DELETE</a></p></div>
+					</div>
+					</div><hr>
+				<?php endforeach; ?>
+			</div>
 		</div>
 	</div>
 </div>
@@ -312,7 +356,18 @@
 		show.style.display = 'block';
 	}
 
-	function show_forum_post(x) {
+	function showthread(id) {
+		var i = 0;
+		document.getElementById('forumposts').style.display = 'none';
+		document.getElementById('thread').style.display = 'block';
+		var posts = document.getElementsByClassName(id);
+		for (i = 0; i < posts.length; i++) {
+      		posts[i].style.display = "block";
+  		}
+  		/*show.style.display = 'block';*/
+	}
+
+	/*function show_forum_post(x) {
 		var i = 0;
 		var id = x;
 		document.getElementById('forum_posts').style.display = 'none';
@@ -326,13 +381,20 @@
 	function backforum() {
 		document.getElementById('forumcomments').style.display = 'none';
 		document.getElementById('forum_posts').style.display = 'block';
-	}
+	}*/
 
 	function comments(x) {
 		document.getElementById('pending').style.display = 'none';
 		document.getElementById('approved').style.display = 'none';
 		document.getElementById(x).style.display = 'block';
 	}
+
+	function askaq(x) {
+		document.getElementById('pendingq').style.display = 'none';
+		document.getElementById('answered').style.display = 'none';
+		document.getElementById(x).style.display = 'block';
+	}
+
 
 /*	function show_forum_thread() {
 

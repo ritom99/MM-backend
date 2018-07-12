@@ -1,4 +1,3 @@
-
 <hr style="width: 40%;">
 <div class="row">
     <div class="col-md-3 col-sm-3" style="text-align: center;"><br>
@@ -58,9 +57,28 @@
 <a class="next" onclick="plusSlides(1)">❯</a>
 </div>
 
-<div class="col-md-6">
-
+<div class="poll col-md-6">
+  <div class="row">
+    <div class="col-md-4" style="padding-top: 35px;">
+      <div id="maxp">
+      <p><h2>POLL</h2></p>
+      <p><h2>OF</h2></p>
+      <p><h2>THE</h2></p>
+      <p><h2>WEEK</h2></p>
+      </div>
+      <div id="minp" style="text-align: center;">
+        <p><h2>POLL OF THE WEEK</h2></p>
+      </div>
+    </div>
+    <div class="col-md-8">
+      
+    </div>
+  </div>
 </div>
+</div>
+
+<div style="text-align: center;">
+  <p><i><a href="<?php echo site_url('askaquestion'); ?>" style="text-decoration: none !important; text-transform: none !important;">Got a query? Ask any question anonymously.</a></i></p>
 </div>
 
 <footer><hr>

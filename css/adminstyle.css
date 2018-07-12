@@ -101,7 +101,11 @@ a:hover {
 	border: none;
 }
 
-#add, #ed, #addpic, #delete, #pending, #approved {
+#askaq button {
+	border: none;
+}
+
+#add, #ed, #addpic, #delete, #pending, #approved, #pendingq, #answered, #thread {
 	display: none;
 }
 
@@ -117,6 +121,11 @@ a:hover {
 	display: none;
 }
 
-#forumcomments {
+.threads {
 	display: none;
-} 
+}
+
+
+/*#pendingq textarea {
+	margin-bottom: -10px; 
+}*/

@@ -80,6 +80,14 @@ class Main extends CI_Controller {
     	$this->load->view('articles/view', $data);
 	}
 
+	public function askaquestion() {
+		$data['pagetitle'] = 'Ask a question';
+		$data['questions'] = $this->post_model->get_questions();
+
+		$this->load->view('templates/header', $data);
+		$this->load->view('pages/askaq', $data);
+	}
+
 }
 
 ?>

@@ -120,6 +120,11 @@ class Post_model extends CI_Model {
 
 	public function delete_forum_post($id) {
 		$query = $this->db->query("DELETE FROM forumposts WHERE post_id='$id';");
+		$query = $this->db->query("DELETE FROM forumthread WHERE post_id='$id';");
+	}
+
+	public function delete_forum_thread($id) {
+		$query = $this->db->query("DELETE FROM forumthread WHERE comment_id='$id';");
 	}
 
 	public function get_comments($status = 'approved', $id = NULL) {
@@ -147,6 +152,28 @@ class Post_model extends CI_Model {
 
 	public function delete_comment($id) {
 		$query = $this->db->query("DELETE FROM comments WHERE comment_id='$id'; ");
+	}
+
+	public function get_questions($status = NULL) {
+		if ($status == NULL) {
+ 			$query = $this->db->query("SELECT * FROM questions WHERE NOT answer = '0' ORDER BY date DESC;");
+			return $query->result_array();
+		}
+
+		$query = $this->db->query("SELECT * FROM questions WHERE answer = '0' ORDER BY date DESC; ");
+		return $query->result_array();
+	}
+
+	public function ask_a_question($q) {
+		$query = $this->db->query("INSERT INTO questions (question) values ('$q'); ");
+	}
+
+	public function delete_q($id) {
+		$query = $this->db->query("DELETE FROM questions WHERE question_id='$id'; ");
+	}
+
+	public function add_answer($id, $a) {
+		$query = $this->db->query("UPDATE questions SET answer='$a' WHERE question_id=$id; ");
 	}
 
 }
