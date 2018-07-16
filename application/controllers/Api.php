@@ -18,10 +18,26 @@ class Api extends CI_Controller {
 		$this->echo_json($posts);
 	}
 
-	public function gettabposts($tab) {
-		$tabposts = $this->post_model->get_tab_posts($tab);
+	public function gettabposts($tab, $lim = NULL) {
+		$tabposts = $this->post_model->get_tab_posts($tab, $lim);
 		$this->echo_json($tabposts);
 	}
+
+	public function getpost($id) {
+		$post = $this->post_model->get_posts(FALSE, $id);
+		$this->echo_json($post);
+	}
+
+	public function getlatestpost() {
+		$post = $this->post_model->get_latest_posts(FALSE, TRUE);
+		$this->echo_json($post);
+	}
+
+	public function getcomments($id) {
+		$comments = $this->post_model->get_comments('all', $id);
+		$this->echo_json($comments);
+	}
+
 }
 
 ?>

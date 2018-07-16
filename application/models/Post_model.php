@@ -6,15 +6,22 @@ class Post_model extends CI_Model {
 		$this->load->database();
 	}
 
-	public function get_posts($slug = FALSE) {
-		if($slug == FALSE) {
+	public function get_posts($slug = FALSE, $id = NULL) {
+		if ($slug == FALSE and $id == NULL) {
 			$query = $this->db->query("SELECT * FROM posts ORDER BY date DESC;");
 			return $query->result_array();
 		}
 
-		$views = $this->db->query("UPDATE posts SET views = views + 1 WHERE slug='$slug';");
-		$query = $this->db->get_where('posts', array('slug' => $slug));
-		return $query->row_array();
+		if ($slug != FALSE and $id == NULL) {
+			$views = $this->db->query("UPDATE posts SET views = views + 1 WHERE slug='$slug';");
+			$query = $this->db->get_where('posts', array('slug' => $slug));
+			return $query->row_array();
+		}
+
+		if ($slug == FALSE and $id != NULL) {
+			$query = $this->db->get_where('posts', array('id' => $id));
+			return $query->row_array();
+		}
 	}
 
 	public function get_editors_picks() {
@@ -27,13 +34,29 @@ class Post_model extends CI_Model {
 		return $query->result_array();
 	}
 
-	public function get_tab_posts($tab) {
-		if ($tab != 'pictures') {
-			$query = $this->db->query("SELECT * FROM posts WHERE category='$tab' ORDER BY date desc; ");
+	public function get_tab_posts($tab, $lim) {
+		if ($lim == NULL) {
+			if ($tab != 'pictures') {
+				if ($tab == 'businessandtech' or $tab == 'BusinessandTech') {
+					$tab = 'Business and Tech';
+				}
+				$query = $this->db->query("SELECT * FROM posts WHERE category='$tab' ORDER BY date desc; ");
+				return $query->result_array();
+			}
+			$query = $this->db->query("SELECT * FROM pictures ORDER BY date desc; ");
 			return $query->result_array();
 		}
-		$query = $this->db->query("SELECT * FROM pictures ORDER BY date desc; ");
-		return $query->result_array();
+		else {
+			if ($tab != 'pictures') {
+				if ($tab == 'businessandtech' or $tab == 'BusinessandTech') {
+					$tab = 'Business and Tech';
+				}
+				$query = $this->db->query("SELECT * FROM posts WHERE category='$tab' ORDER BY date DESC LIMIT $lim; ");
+				return $query->result_array();
+			}
+			$query = $this->db->query("SELECT * FROM pictures ORDER BY date desc LIMIT $lim; ");
+			return $query->result_array();
+		}
 	}
 
 	public function get_pictures() {
@@ -42,13 +65,18 @@ class Post_model extends CI_Model {
 	}
 
 	public function get_latest_posts($category = FALSE, $mostrecent = FALSE) {
-		if ($category == FALSE) {
+		if ($category == FALSE and $mostrecent == FALSE) {
 			$query = $this->db->query("SELECT * FROM posts ORDER BY date DESC LIMIT 3;");
 			return $query->result_array();
 		} 
 
 		if ($category != FALSE and $mostrecent == TRUE) {
 			$query = $this->db->query("SELECT * FROM posts WHERE category='$category' ORDER BY date DESC LIMIT 1;");
+			return $query->row_array();
+		}
+
+		if ($category == FALSE and $mostrecent == TRUE) {
+			$query = $this->db->query("SELECT * FROM posts ORDER BY date DESC LIMIT 1;");
 			return $query->row_array();
 		}
 
@@ -138,6 +166,10 @@ class Post_model extends CI_Model {
 		}
 		elseif ($id == NULL and $status == 'notapproved') {
 			$query = $this->db->query("SELECT * FROM comments WHERE status='notapproved' ORDER BY date DESC; ");
+			return $query->result_array();
+		}
+		else {
+			$query = $this->db->query("SELECT * FROM comments WHERE post_id='$id' ORDER BY date DESC; ");
 			return $query->result_array();
 		}
 	}

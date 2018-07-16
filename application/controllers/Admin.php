@@ -15,7 +15,7 @@ class Admin extends CI_Controller {
 		if (!$this->session->userdata('logged_in') == TRUE) {
 			$this->load->view('admin/login');
 		} else {
-			$this->load->view('admin/panel');
+			redirect('Admin/panel');
 		}
 	}
 
